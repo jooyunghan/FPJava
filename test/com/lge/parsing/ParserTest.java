@@ -49,4 +49,9 @@ public class ParserTest {
         assertEquals(List.nil(), Parser.ints().run("[2, -3, +4]"));
         assertEquals(List.unit(Tuples.tuples(List.nil(), "")), Parser.ints().run("[]"));
     }
+    
+    @Test
+    public void testFloat() {
+        assertEquals(3.14f, Parser.float_().parse("3.14"), 0.001f);
+    }
 }

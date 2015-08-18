@@ -1,6 +1,7 @@
 package com.lge.parsing;
 import static com.lge.fp.Tuples.tuples;
 
+import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -178,5 +179,16 @@ public class Parser<T> {
 
     public Parser<T> paren() {
         return symbol("(").flatMap(x -> this.flatMap(t -> symbol(")").flatMap(z -> unit(t))));
+    }
+    
+    /** float (Exercise G) */
+    
+    private static final Parser<Float> float_ = digit().some().flatMap(ds -> char_('.').flatMap(p -> digit().some().flatMap(fs -> {
+        BiFunction<Float, Integer, Float> shiftl = (n, d) -> n * 10 + d;
+        BiFunction<Integer, Float, Float> shiftr = (f, x) -> (f + x) / 10;
+        return unit(ds.foldl(shiftl, 0f) + fs.foldr(shiftr, 0f));
+    })));
+    public static Parser<Float> float_() {
+        return float_;
     }
 }

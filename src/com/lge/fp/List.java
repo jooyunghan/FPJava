@@ -53,13 +53,20 @@ public abstract class List<T> {
     }
 
     public T foldl1(BinaryOperator<T> join) {
-        T result = head();
-        List<T> cur = tail();
+        return tail().foldl(join, head());
+    }
+
+    public <R> R foldl(BiFunction<R, T, R> join, R z) {
+        List<T> cur = this;
         while (!cur.isNil()) {
-            result = join.apply(result, cur.head());
+            z = join.apply(z, cur.head());
             cur = cur.tail();
         }
-        return result;
+        return z;
+    }
+    
+    public <R> R foldr(BiFunction<T,R,R> join, R z) {
+        return isNil() ? z : join.apply(head(), tail().foldr(join, z));
     }
 
     abstract public boolean isNil();
