@@ -1,6 +1,6 @@
 package com.lge.parsing;
 
-public class Expr implements Show {
+public abstract class Expr implements Show {
     /** constructors */
     public static Expr con(int n) {
         return new Con(n);
@@ -10,6 +10,12 @@ public class Expr implements Show {
         return new Bin(op, left, right);
     }
 
+    @Override
+    public String show() {
+        return shows().apply("");
+    }
+    protected abstract ShowS shows();
+    
     /** internals */
     
     private static class Con extends Expr {
@@ -20,8 +26,8 @@ public class Expr implements Show {
         }
         
         @Override
-        public String show() {
-            return Integer.toString(n);
+        public ShowS shows() {
+            return ShowS.showString(Integer.toString(n));
         }
 
         @Override
@@ -69,16 +75,17 @@ public class Expr implements Show {
         }
         
         @Override
-        public String show() {
-            return "(" + left.show() + " " + showop() + " " + right.show() + ")";
+        public ShowS shows() {
+            ShowS showSpace = ShowS.showChar(' ');
+            return ShowS.showParen(true, left.shows().compose(showSpace).compose(showsop()).compose(showSpace).compose(right.shows()));
         }
 
-        private String showop() {
+        private ShowS showsop() {
             switch (op) {
-            case PLUS: return "+";
-            case MINUS: return "-";
-            case MUL: return "*";
-            case DIV: return "/";
+            case PLUS: return ShowS.showChar('+');
+            case MINUS: return ShowS.showChar('-');
+            case MUL: return ShowS.showChar('*');
+            case DIV: return ShowS.showChar('/');
             }
             throw new IllegalArgumentException(op + " is not handled.");
         }
