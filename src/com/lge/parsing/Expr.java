@@ -1,6 +1,6 @@
 package com.lge.parsing;
 
-public class Expr {
+public class Expr implements Show {
     /** constructors */
     public static Expr con(int n) {
         return new Con(n);
@@ -9,7 +9,7 @@ public class Expr {
     public static Expr bin(Op op, Expr left, Expr right) {
         return new Bin(op, left, right);
     }
-    
+
     /** internals */
     
     private static class Con extends Expr {
@@ -17,6 +17,11 @@ public class Expr {
 
         public Con(int n) {
             this.n = n;
+        }
+        
+        @Override
+        public String show() {
+            return Integer.toString(n);
         }
 
         @Override
@@ -61,6 +66,21 @@ public class Expr {
             this.op = op;
             this.left = left;
             this.right = right;
+        }
+        
+        @Override
+        public String show() {
+            return "(" + left.show() + " " + showop() + " " + right.show() + ")";
+        }
+
+        private String showop() {
+            switch (op) {
+            case PLUS: return "+";
+            case MINUS: return "-";
+            case MUL: return "*";
+            case DIV: return "/";
+            }
+            throw new IllegalArgumentException(op + " is not handled.");
         }
 
         @Override
