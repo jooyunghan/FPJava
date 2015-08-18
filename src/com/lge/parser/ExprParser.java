@@ -4,27 +4,44 @@ public class ExprParser {
     /*
      *  grammar
      *  
-     *   expr  ::= nat | '(' expr op expr ')'
-     *   op    ::= '+' | '-'
-     *   nat   ::= {digit}+
-     *   digit ::= '0' | '1' | ... | '9'
+     *   expr   ::= term {addop term}*
+     *   term   ::= factor {mulop factor}*
+     *   factor ::= nat | '(' expr ')'
+     *   addop  ::= '+' | '-'
+     *   mulop  ::= '*' | '/'
      *   
      */
     
     public static Parser<Expr> expr() {
-        return constant().or(binary().paren()).token();
+        return term().flatMap(x -> rest(x)).token();
     }
     
-    public static Parser<Expr> constant() {
+    private static Parser<Expr> rest(Expr e1) {
+        return addop().flatMap(p -> term().flatMap(e2 -> rest(Expr.bin(p, e1, e2)))).or(()->Parser.unit(e1));
+    }
+
+    private static Parser<Expr> term() {
+        return factor().flatMap(x -> more(x));
+    }
+    
+    private static Parser<Expr> more(Expr e1) {
+        return mulop().flatMap(p -> factor().flatMap(e2 -> more(Expr.bin(p, e1, e2)))).or(()->Parser.unit(e1));
+    }
+    
+    private static Parser<Expr> factor() {
+        return constant().or(()->expr().paren()).token();
+    }
+    
+    private static Parser<Expr> constant() {
         return Parser.nat().flatMap(n -> Parser.unit(Expr.con(n)));
     }
     
-    public static Parser<Expr> binary() {
-        return expr().flatMap(e1 -> op().flatMap(p -> expr().flatMap(e2 -> Parser.unit(Expr.bin(p, e1, e2))))); // right associative & infinite recursion
+    private static Parser<Op> addop() {
+        return Parser.symbol("+").flatMap(x -> Parser.unit(Op.PLUS)).or(()->Parser.symbol("-").flatMap(x -> Parser.unit(Op.MINUS)));
     }
     
-    public static Parser<Op> op() {
-        return Parser.symbol("+").flatMap(x -> Parser.unit(Op.PLUS)).or(Parser.symbol("-").flatMap(x -> Parser.unit(Op.MINUS)));
+    private static Parser<Op> mulop() {
+        return Parser.symbol("*").flatMap(x -> Parser.unit(Op.MUL)).or(()->Parser.symbol("/").flatMap(x -> Parser.unit(Op.DIV)));
     }
     
 }

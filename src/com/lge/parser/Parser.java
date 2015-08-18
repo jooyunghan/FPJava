@@ -4,6 +4,7 @@ import static com.lge.fp.Tuples.tuples;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import com.lge.fp.Ints;
 import com.lge.fp.List;
@@ -89,10 +90,10 @@ public class Parser<T> {
      * choice and repetition 
      */
 
-    public Parser<T> or(Parser<T> q) {
+    public Parser<T> or(Supplier<Parser<T>> qs) {
         return new Parser<T>(s -> {
             List<Tuple2<T, String>> result = this.run(s);
-            return result.isNil() ? q.run(s) : result;
+            return result.isNil() ? qs.get().run(s) : result;
         });
     }
 
@@ -111,7 +112,7 @@ public class Parser<T> {
     }
     
     public static <T> Parser<List<T>> optional(Parser<List<T>> p) {
-        return p.or(none());
+        return p.or(()->none());
     }
     
     private static final Parser<?> none = unit(List.nil());
@@ -161,7 +162,7 @@ public class Parser<T> {
     }
 
 //    private static final Parser<Integer> int_ = symbol("-").flatMap(x -> natural().flatMap(n -> unit(-n))).or(natural()); // inefficient
-    private static final Parser<Integer> int_ = space().flatMap(x -> char_('-').flatMap(y -> unit(Ints.negate)).or(unit(Ints.id)).flatMap(f -> nat().flatMap(n -> unit(f.apply(n)))));
+    private static final Parser<Integer> int_ = space().flatMap(x -> char_('-').flatMap(y -> unit(Ints.negate)).or(()->unit(Ints.id)).flatMap(f -> nat().flatMap(n -> unit(f.apply(n)))));
     public static Parser<Integer> int_() {
         return int_;
     }
