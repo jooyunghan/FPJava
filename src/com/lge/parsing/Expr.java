@@ -10,12 +10,6 @@ public abstract class Expr implements Show {
         return new Bin(op, left, right);
     }
 
-    @Override
-    public String show() {
-        return shows().apply("");
-    }
-    protected abstract ShowS shows();
-    
     /** internals */
     
     private static class Con extends Expr {
@@ -26,7 +20,7 @@ public abstract class Expr implements Show {
         }
         
         @Override
-        public ShowS shows() {
+        public ShowS showsPrec(int prec) {
             return ShowS.showString(Integer.toString(n));
         }
 
@@ -75,12 +69,23 @@ public abstract class Expr implements Show {
         }
         
         @Override
-        public ShowS shows() {
+        public ShowS showsPrec(int prec) {
             ShowS showSpace = ShowS.showChar(' ');
-            return ShowS.showParen(true, left.shows().compose(showSpace).compose(showsop()).compose(showSpace).compose(right.shows()));
+            int q = prec(op);
+            return ShowS.showParen(prec > q, left.showsPrec(q).compose(showSpace).compose(showsop(op)).compose(showSpace).compose(right.showsPrec(q+1)));
+        }
+        
+        private int prec(Op op) {
+            switch (op) {
+            case PLUS: 
+            case MINUS: return 1;
+            case MUL: 
+            case DIV: return 2;
+            }
+            throw new IllegalArgumentException(op + " is not handled.");            
         }
 
-        private ShowS showsop() {
+        private ShowS showsop(Op op) {
             switch (op) {
             case PLUS: return ShowS.showChar('+');
             case MINUS: return ShowS.showChar('-');
