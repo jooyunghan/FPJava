@@ -28,6 +28,10 @@ public class Parser<T> {
     public List<Tuple2<T, String>> run(String string) {
         return run.apply(string);
     }
+    
+    public T parse(String string) {
+        return run(string).head()._1;
+    }
 
     /** monad unit */
     public static <T> Parser<T> unit(T t) {
@@ -169,5 +173,9 @@ public class Parser<T> {
     private static final Parser<List<Integer>> ints = int_().manywith(symbol(",")).bracket();
     public static Parser<List<Integer>> ints() {
         return ints;
+    }
+
+    public Parser<T> paren() {
+        return symbol("(").flatMap(x -> this.flatMap(t -> symbol(")").flatMap(z -> unit(t))));
     }
 }
