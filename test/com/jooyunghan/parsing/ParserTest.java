@@ -1,12 +1,12 @@
-package com.lge.parsing;
+package com.jooyunghan.parsing;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.lge.fp.List;
-import com.lge.fp.Tuples;
-import com.lge.parsing.Parser;
+import com.jooyunghan.fp.List;
+import com.jooyunghan.fp.Tuples;
+import com.jooyunghan.parsing.Parser;
 
 public class ParserTest {
 

@@ -1,4 +1,4 @@
-package com.lge.fp;
+package com.jooyunghan.fp;
 
 import java.util.function.UnaryOperator;
 

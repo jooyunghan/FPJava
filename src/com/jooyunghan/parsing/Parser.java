@@ -1,5 +1,5 @@
-package com.lge.parsing;
-import static com.lge.fp.Tuples.tuples;
+package com.jooyunghan.parsing;
+import static com.jooyunghan.fp.Tuples.tuples;
 
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
@@ -7,10 +7,10 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.lge.fp.Ints;
-import com.lge.fp.List;
-import com.lge.fp.Tuple2;
-import com.lge.fp.Unit;
+import com.jooyunghan.fp.Ints;
+import com.jooyunghan.fp.List;
+import com.jooyunghan.fp.Tuple2;
+import com.jooyunghan.fp.Unit;
 
 /**
  * Monadic parser.

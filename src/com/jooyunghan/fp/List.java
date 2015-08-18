@@ -1,4 +1,4 @@
-package com.lge.fp;
+package com.jooyunghan.fp;
 
 import java.util.NoSuchElementException;
 import java.util.function.BiFunction;
