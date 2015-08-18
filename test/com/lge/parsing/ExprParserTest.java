@@ -1,10 +1,12 @@
-package com.lge.parser;
+package com.lge.parsing;
 
+import static com.lge.parsing.Expr.*;
+import static com.lge.parsing.ExprParser.*;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import static com.lge.parser.Expr.*;
-import static com.lge.parser.ExprParser.*;
+
+import com.lge.parsing.Op;
 
 public class ExprParserTest {
 

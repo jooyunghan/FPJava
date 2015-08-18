@@ -1,4 +1,4 @@
-package com.lge.parser;
+package com.lge.parsing;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.lge.fp.List;
 import com.lge.fp.Tuples;
+import com.lge.parsing.Parser;
 
 public class ParserTest {
 
