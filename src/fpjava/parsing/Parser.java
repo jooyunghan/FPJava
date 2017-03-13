@@ -1,5 +1,5 @@
-package com.jooyunghan.parsing;
-import static com.jooyunghan.fp.Tuples.tuples;
+package fpjava.parsing;
+import static fpjava.data.Tuples.tuples;
 
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
@@ -7,10 +7,10 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import com.jooyunghan.fp.Ints;
-import com.jooyunghan.fp.List;
-import com.jooyunghan.fp.Tuple2;
-import com.jooyunghan.fp.Unit;
+import fpjava.data.Ints;
+import fpjava.data.List;
+import fpjava.data.Tuple2;
+import fpjava.data.Unit;
 
 /**
  * Monadic parser.

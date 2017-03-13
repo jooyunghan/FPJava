@@ -1,12 +1,11 @@
-package com.jooyunghan.parsing;
+package fpjava.parsing;
 
-import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
+import fpjava.data.List;
+import fpjava.data.Tuples;
+import org.junit.jupiter.api.Test;
 
-import com.jooyunghan.fp.List;
-import com.jooyunghan.fp.Tuples;
-import com.jooyunghan.parsing.Parser;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ParserTest {
 
@@ -45,11 +44,11 @@ public class ParserTest {
 
     @Test
     public void testInts() {
-        assertEquals(List.unit(Tuples.tuples(toList(2,-3,4), "")), Parser.ints().run("[2, -3, 4]"));
+        assertEquals(List.unit(Tuples.tuples(toList(2, -3, 4), "")), Parser.ints().run("[2, -3, 4]"));
         assertEquals(List.nil(), Parser.ints().run("[2, -3, +4]"));
         assertEquals(List.unit(Tuples.tuples(List.nil(), "")), Parser.ints().run("[]"));
     }
-    
+
     @Test
     public void testFloat() {
         assertEquals(3.14f, Parser.float_().parse("3.14"), 0.001f);

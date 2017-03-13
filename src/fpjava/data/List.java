@@ -1,4 +1,4 @@
-package com.jooyunghan.fp;
+package fpjava.data;
 
 import java.util.NoSuchElementException;
 import java.util.function.BiFunction;

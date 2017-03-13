@@ -1,4 +1,4 @@
-package com.jooyunghan.fp;
+package fpjava.data;
 
 public class Unit {
     

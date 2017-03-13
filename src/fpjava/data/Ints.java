@@ -1,4 +1,4 @@
-package com.jooyunghan.fp;
+package fpjava.data;
 
 import java.util.function.UnaryOperator;
 

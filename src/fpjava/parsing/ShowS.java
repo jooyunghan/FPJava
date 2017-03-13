@@ -1,4 +1,4 @@
-package com.jooyunghan.parsing;
+package fpjava.parsing;
 
 import java.util.function.Function;
 

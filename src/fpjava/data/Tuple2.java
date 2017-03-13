@@ -1,4 +1,4 @@
-package com.jooyunghan.fp;
+package fpjava.data;
 
 /**
  * Basic tuple for two elements
